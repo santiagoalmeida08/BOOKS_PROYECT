@@ -28,8 +28,8 @@ import os
 path = kh.dataset_download("mohamedbakhet/amazon-books-reviews")
 
 #0.Cargar datos
-df_bdata = pd.read_csv('data\\books_data.csv')
-df_brating = pd.read_csv('data\\books_rating.csv')
+df_brating = pd.read_csv('C:\\Users\\Usuario\\Desktop\\Prueba_tecnica_Bancolombia\\BOOKS__PROYECT\\Books_rating.csv')
+df_bdata = pd.read_csv('C:\\Users\\Usuario\\Desktop\\Prueba_tecnica_Bancolombia\\BOOKS__PROYECT\\books_data.csv')
 
 #1.Analisis de datos - books_data
 #1.1Transformacion de nombres de columnas
@@ -112,8 +112,20 @@ df_brating['profilename'] = df_brating['profilename'].fillna('anonimo')
 #5.Base Books_rating limpia
 df_clean_brating = df_brating.copy()
 
+"""Debido al gran tamaño de la base de datos, tomamos una muestra de 300mil datos para conservar
+el rendimiento del repositorio y no tener problemas en la actualizacion"""
+
+df_brating_reducito_1 = df_clean_brating.sample(frac=0.05, random_state=42) 
+df_brating_reducito_2 = df_clean_brating.sample(frac=0.05, random_state=560)
+
 
 #6.Guardar bases de datos limpias
-joblib.dump(df_clean_bdata, 'data\\df_clean_bdata.pkl')
-joblib.dump(df_clean_brating, 'data\\df_clean_brating.pkl')
+joblib.dump(df_clean_bdata, 'salidas\\df_clean_bdata.pkl',compress = 7)
 
+
+joblib.dump(df_brating_reducito_1, 'salidas\\df_brating_reducito_1.pkl',compress= 5)
+joblib.dump(df_brating_reducito_2, 'salidas\\df_brating_reducito_2.pkl',compress= 5)
+
+#Confirmamos que el peso por archivo no sea mayor a 100 MB
+peso = os.path.getsize('salidas\\df_clean_bdata.pkl')
+peso_mb = peso/(1024*1024)

@@ -75,16 +75,23 @@ plt.show()
 print(f'----------------------------------------------------')
 
 print('Resumen de sentimientos a nivel general:')
-print(f'Porcentaje de reseñas positivas: {sentimiento_counts["Reseña Positiva"] / len(df_nlp) * 100:.2f}%')
-print(f'Porcentaje de reseñas negativas: {sentimiento_counts["Reseña Negativa"] / len(df_nlp) * 100:.2f}%')
-print(f'Porcentaje de reseñas neutrales: {sentimiento_counts["Reseña Neutral"] / len(df_nlp) * 100:.2f}%')
+print(f'Porcentaje de reseñas positivas: {sentimiento_counts["reseña positiva"] / len(df_nlp) * 100:.2f}%')
+print(f'Porcentaje de reseñas negativas: {sentimiento_counts["reseña negativa"] / len(df_nlp) * 100:.2f}%')
+print(f'Porcentaje de reseñas neutrales: {sentimiento_counts["reseña neutral"] / len(df_nlp) * 100:.2f}%')
 
 # Calcular el sentimiento promedio por libro
 df_sentimiento_libro = sentimiento_promedio_por_libro(df_nlp, 'title')
 df_sentimiento_libro.describe()
 
+#Boxplot
+plt.figure(figsize=(10, 6))
+plt.boxplot(df_sentimiento_libro['sentimiento'])
+plt.title('Distribución de Sentimientos por Libro')
+plt.ylabel('Sentimiento')
+
 # Calcular el sentimiento promedio por categoría
 df_sentimiento_categoria = sentimiento_promedio_por_categoria(df_nlp, 'categories').sort_values(by='sentimiento', ascending=True)
+
 
 #Guardar base.
 #Fragmentamos los datos para no saturar el repositorio

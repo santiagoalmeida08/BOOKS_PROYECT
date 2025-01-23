@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import re   
+import os
 
 
 
@@ -20,6 +21,7 @@ import re
 #6.4.Categoria mas popular top(5)
 #6.5.¿Como ha sido la evolucion de las reseñas a lo largo de los años?
 #6.6.¿Como se distribuye el precio de los libros?
+#7. Fragmentar y guardar base
 
 
 #1.Funciones 
@@ -182,3 +184,15 @@ sns.boxplot(x=books_reviews_t['price'])
 plt.title('Distribución de precios')
 plt.xlabel('Precio')
 
+#Fragmentamos los datos para no saturar el repositorio
+books_reviews_t.shape
+books_reviews_t_1 = books_reviews_t.iloc[:150000, :]
+books_reviews_t_2 = books_reviews_t.iloc[150000:320894, :]
+
+# Guardar el DataFrame en un archivo pickle
+joblib.dump(books_reviews_t_1, 'salidas\\cd_for_nlp_1.pkl', compress=9)
+joblib.dump(books_reviews_t_2, 'salidas\\cd_for_nlp_2.pkl', compress=9)
+
+# Confirmamos que el peso por archivo no sea mayor a 100 MB
+peso = os.path.getsize('salidas\\cd_for_nlp_2.pkl')
+peso_mb = peso/(1024*1024)

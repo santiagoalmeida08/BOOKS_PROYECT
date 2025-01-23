@@ -109,6 +109,17 @@ books_reviews['publisheddate'] = books_reviews['publisheddate'].astype(int)
 
 books_reviews['years_since_published'] = np.abs(books_reviews['review_year'] - books_reviews['publisheddate'])
 
+books_reviews['years_since_published'].describe()
+
+#¿Hay alguna relacion entre years_since_published y review/score?
+
+correlation_matrix = books_reviews[['years_since_published', 'review/score']].corr()
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+plt.title('Matriz de Correlación entre Años y Review Score')
+plt.show()
+
 #5.promedio de valoraciones por libro 
 
 """ 
@@ -145,8 +156,9 @@ plt.ylabel('Valoración Utilidad')
 
 #6.2.Numero de reseñas y valoraciones totales"""
 
+
 reseñas = books_reviews_t['ratingscount'].sum()
-scores = books_reviews_t['review/score'].sum()
+scores = books_reviews_t['review/score'].count()
 
 #6.3.Autores mas populares top(10)
 autores_populares = books_reviews['authors'].value_counts().reset_index().head(10)
@@ -169,7 +181,7 @@ plt.xlabel('Número de reseñas')
 
 #6.5.¿Como ha sido la evolucion de las reseñas a lo largo de los años?
 # Grafico evolucion de reseñas por año
-
+""""Se evidencia que el numero de reseñas ha disminuido a partir del año 2006"""
 reseñas_por_año = books_reviews_t.groupby('review_year')['review/text'].count().reset_index()
 
 plt.figure(figsize=(10, 6))
@@ -180,6 +192,7 @@ plt.ylabel('Número de reseñas')
 
 #6.6.¿Como se distribuye el precio de los libros?
 #Grafico distribucion de precios - boxplot
+books_reviews_t['price'].describe()
 
 plt.figure(figsize=(10, 6))
 sns.boxplot(x=books_reviews_t['price'])

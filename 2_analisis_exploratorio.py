@@ -101,7 +101,6 @@ books_reviews['review_year'] = books_reviews['review_year'].astype(int)
 
 #Se encuentran valores defectuosos en la fecha de publicación, los cuales se proceden a eliminar
 
-
 books_reviews = drop_special_reg(books_reviews, 'publisheddate')
 
 books_reviews['publisheddate'] = books_reviews['publisheddate'].astype(int)
@@ -126,6 +125,9 @@ books_reviews_t = transformacion_review_helpfulness(books_reviews)
 
 valoracion_score = calculo_valoracion_promedio_por_libro(books_reviews_t)[1].sort_values(by = 'review/score', ascending = False)
 valoracion_utilidad = calculo_valoracion_promedio_por_libro(books_reviews_t)[0].sort_values(by = 'review/helpfulness', ascending = False)
+
+#Eliminamos columnas que no se utilizaran
+books_reviews_t = books_reviews_t.drop(['utilidad', 'total_personas'], axis = 1)
 
 #6.Analisis
 

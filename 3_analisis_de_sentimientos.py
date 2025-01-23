@@ -80,7 +80,7 @@ print(f'Porcentaje de reseñas negativas: {sentimiento_counts["reseña negativa"
 print(f'Porcentaje de reseñas neutrales: {sentimiento_counts["reseña neutral"] / len(df_nlp) * 100:.2f}%')
 
 # Calcular el sentimiento promedio por libro
-df_sentimiento_libro = sentimiento_promedio_por_libro(df_nlp, 'title')
+df_sentimiento_libro = sentimiento_promedio_por_libro(df_nlp, 'title').sort_values(by='sentimiento', ascending=False)
 df_sentimiento_libro.describe()
 
 #Boxplot

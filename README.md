@@ -15,10 +15,12 @@ Adicionalmente se explora el analisis de sentimientos evaluando las reseñas de 
 
 2. Instalar las dependencias: Asegúrate de tener pip instalado y ejecuta:
 
+    ```bash
     pip install -r requirements.txt
 
 3. Ejecutar el análisis: Ejecuta los scripts de análisis en el siguiente orden:
-
+    
+    ```bash
     python 1_carga_y_trasformaciones.py
     python 2_analisis_exploratorio.py
 

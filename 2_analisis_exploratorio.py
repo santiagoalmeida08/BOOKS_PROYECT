@@ -6,8 +6,23 @@ import seaborn as sns
 import numpy as np
 import re   
 
-#Funciones 
 
+
+#1.Funciones
+#2.Cargar datos
+#3.Preparacion
+#4.Transformacion
+#5.Promedio de valoraciones por libro
+#6.Analisis
+#6.1.¿ Existe alguna relacion entre la valoracion score y la valoracion utilidad?
+#6.2.Numero de reseñas y valoraciones totales
+#6.3.Autores mas populares top(10)
+#6.4.Categoria mas popular top(5)
+#6.5.¿Como ha sido la evolucion de las reseñas a lo largo de los años?
+#6.6.¿Como se distribuye el precio de los libros?
+
+
+#1.Funciones 
 
 def drop_special_reg(df, columna):
     """
@@ -57,11 +72,13 @@ def calculo_valoracion_promedio_por_libro(df):
     valoracion_promedio_score = df.groupby('title')['review/score'].mean().reset_index()
     return valoracion_promedio_utilidad_reseña, valoracion_promedio_score
 
-#Cargar datos
+#2.Cargar datos
 
 df_books_description = joblib.load('salidas\\df_clean_bdata.pkl')
 df_books_rating_1 = joblib.load('salidas\\df_brating_reducito_1.pkl')
 df_books_rating_2 = joblib.load('salidas\\df_brating_reducito_2.pkl')
+
+#3.Preparacion
 
 #Unimos las bases books_rating1 y books_rating2
 
@@ -78,6 +95,8 @@ de los datos"""
 
 books_reviews['review_year'] = books_reviews['review_year'].astype(int)
 
+#4.Transformacion
+
 #Se encuentran valores defectuosos en la fecha de publicación, los cuales se proceden a eliminar
 
 
@@ -89,7 +108,7 @@ books_reviews['publisheddate'] = books_reviews['publisheddate'].astype(int)
 
 books_reviews['years_since_published'] = np.abs(books_reviews['review_year'] - books_reviews['publisheddate'])
 
-#Calculamos el promedio de valoraciones por libro 
+#5.promedio de valoraciones por libro 
 
 """ 
 - Se uso la funcion transformar para separar la variable review/helpfulness en dos columnas con el fin de calcular el promedio de valoraciones
@@ -106,7 +125,9 @@ books_reviews_t = transformacion_review_helpfulness(books_reviews)
 valoracion_score = calculo_valoracion_promedio_por_libro(books_reviews_t)[1].sort_values(by = 'review/score', ascending = False)
 valoracion_utilidad = calculo_valoracion_promedio_por_libro(books_reviews_t)[0].sort_values(by = 'review/helpfulness', ascending = False)
 
-#¿ Existe alguna relacion entre la valoracion score y la valoracion utilidad?
+#6.Analisis
+
+#6.1.¿ Existe alguna relacion entre la valoracion score y la valoracion utilidad?
 #Grafico valoracion score vs valoracion utilidad
 
 """Se evidencia que no existe una correlacion entre estas variables lo cual quiere decir que 
@@ -118,12 +139,12 @@ plt.title('Valoración Score vs Valoración Utilidad')
 plt.xlabel('Valoración Score')
 plt.ylabel('Valoración Utilidad')
 
-#Numero de reseñas y valoraciones totales"""
+#6.2.Numero de reseñas y valoraciones totales"""
 
 reseñas = books_reviews_t['ratingscount'].sum()
 scores = books_reviews_t['review/score'].sum()
 
-#Autores mas populares top(10)
+#6.3.Autores mas populares top(10)
 autores_populares = books_reviews['authors'].value_counts().reset_index().head(10)
 autores_populares.columns = ['authors', 'num_reviews']
 
@@ -133,7 +154,7 @@ plt.title('Autores más populares')
 plt.xlabel('Número de reseñas')
 plt.ylabel('Autores')
 
-#Categoria mas popular top(5)
+#6.4.Categoria mas popular top(5)
 categoria_popular = books_reviews.groupby('categories')['review/text'].count().reset_index().sort_values(by = 'review/text', ascending = False).head(5)
 categoria_popular.columns = ['categories', 'num_reviews']
 
@@ -142,7 +163,7 @@ sns.barplot(x='num_reviews', y='categories', data=categoria_popular)
 plt.title('Categorías más populares')
 plt.xlabel('Número de reseñas')
 
-# ¿Como ha sido la evolucion de las reseñas a lo largo de los años?
+#6.5.¿Como ha sido la evolucion de las reseñas a lo largo de los años?
 # Grafico evolucion de reseñas por año
 
 reseñas_por_año = books_reviews_t.groupby('review_year')['review/text'].count().reset_index()
@@ -153,7 +174,7 @@ plt.title('Evolución de reseñas por año')
 plt.xlabel('Año')
 plt.ylabel('Número de reseñas')
 
-#¿Como se distribuye el precio de los libros?
+#6.6.¿Como se distribuye el precio de los libros?
 #Grafico distribucion de precios - boxplot
 
 plt.figure(figsize=(10, 6))

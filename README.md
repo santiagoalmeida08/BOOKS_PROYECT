@@ -11,18 +11,23 @@ Este proyecto tiene como objetivo analizar las reseñas de libros para identific
 
 2. Activar el entorno virtual, sigue los siguientes pasos:
 
-    En caso de que no tengas un entorno virtual creado ejecuta el siguiente comando
+    En caso de que no tengas un entorno virtual creado ejecuta el siguiente fragmento de codigo
 
     ```bash
-    python -m venv env #instalacion entorno 
+    python -m venv env #instalacion entorno
+    
     pip list #verifica que tengas los requerimientos del proyecto instalados
+    
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser #Permisos powershell
+    
     env\\Scripts\\Activate.ps1 #Activar entorno
 
-3. Instalar las dependencias: Asegúrate de tener pip instalado y ejecuta:
+3. Instalar las dependencias: Asegúrate de tener el entorno virtual activo y ejecuta:
 
     ```bash
-    pip install -r requirements.txt
+    pip install -r requirements.txt # Installa las librerias del proyecto
+
+4. Verifica nuevamente que la instalacion se efectuo con  pip list
 
 4. Ejecutar el proyecto: Ejecuta los scripts de análisis en el siguiente orden:
     

@@ -118,11 +118,46 @@ plt.title('Valoración Score vs Valoración Utilidad')
 plt.xlabel('Valoración Score')
 plt.ylabel('Valoración Utilidad')
 
-#¿como afecta el precio en el score de los libros?
-#Grafico precio vs valoracion score
+#Numero de reseñas y valoraciones totales"""
+
+reseñas = books_reviews_t['ratingscount'].sum()
+scores = books_reviews_t['review/score'].sum()
+
+#Autores mas populares top(10)
+autores_populares = books_reviews['authors'].value_counts().reset_index().head(10)
+autores_populares.columns = ['authors', 'num_reviews']
 
 plt.figure(figsize=(10, 6))
-sns.lineplot(x='price', y='review/score', data=books_reviews_t)
-plt.title('Precio vs Valoración Score')
+sns.barplot(x='num_reviews', y='authors', data=autores_populares)
+plt.title('Autores más populares')
+plt.xlabel('Número de reseñas')
+plt.ylabel('Autores')
+
+#Categoria mas popular top(5)
+categoria_popular = books_reviews.groupby('categories')['review/text'].count().reset_index().sort_values(by = 'review/text', ascending = False).head(5)
+categoria_popular.columns = ['categories', 'num_reviews']
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x='num_reviews', y='categories', data=categoria_popular)
+plt.title('Categorías más populares')
+plt.xlabel('Número de reseñas')
+
+# ¿Como ha sido la evolucion de las reseñas a lo largo de los años?
+# Grafico evolucion de reseñas por año
+
+reseñas_por_año = books_reviews_t.groupby('review_year')['review/text'].count().reset_index()
+
+plt.figure(figsize=(10, 6))
+sns.lineplot(x='review_year', y='review/text', data=reseñas_por_año)
+plt.title('Evolución de reseñas por año')
+plt.xlabel('Año')
+plt.ylabel('Número de reseñas')
+
+#¿Como se distribuye el precio de los libros?
+#Grafico distribucion de precios - boxplot
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(x=books_reviews_t['price'])
+plt.title('Distribución de precios')
 plt.xlabel('Precio')
-plt.ylabel('Valoración Score')
+

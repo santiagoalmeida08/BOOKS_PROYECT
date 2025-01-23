@@ -8,17 +8,23 @@ Adicionalmente se explora el analisis de sentimientos evaluando las reseñas de 
 
 ## Instrucciones para Ejecutar el Análisis
 
-1. **Clonar el repositorio**:
-   ```bash
-   git clone 
-   cd proyecto-nuevo
+1. Abrir la carpeta del proyecto 
 
-2. Instalar las dependencias: Asegúrate de tener pip instalado y ejecuta:
+2. Activar el entorno virtual, sigue los siguientes pasos:
+
+    En caso de que no tengas un entorno virtual creado ejecuta el siguiente comando
+    ```bash
+    python -m venv env #instalacion entorno 
+    pip list #verifica que tengas los requerimientos del proyecto instalados
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser #Permisos powershell
+    env\\Scripts\\Activate.ps1 #Activar entorno
+
+3. Instalar las dependencias: Asegúrate de tener pip instalado y ejecuta:
 
     ```bash
     pip install -r requirements.txt
 
-3. Ejecutar el análisis: Ejecuta los scripts de análisis en el siguiente orden:
+4. Ejecutar el análisis: Ejecuta los scripts de análisis en el siguiente orden:
     
     ```bash
     python 1_carga_y_trasformaciones.py

@@ -1,9 +1,7 @@
 #Librerias
-
+import os
 import pandas as pd
 import joblib
-import nltk
-from nltk.tokenize import word_tokenize
 import re
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
@@ -61,7 +59,7 @@ df_nlp['sentimiento'] = df_nlp['review/text'].apply(obtener_sentimiento)
 
 #Clasificacion sentimientos segun la escala del compund
 
-df_nlp['des_sentimiento'] = df_nlp['sentimiento'].apply(lambda x: 'Reseña Positiva' if x > 0.05 else ('Reseña Negativa' if x < -0.05 else 'Reseña Neutral'))
+df_nlp['des_sentimiento'] = df_nlp['sentimiento'].apply(lambda x: 'reseña positiva' if x > 0.05 else ('reseña negativa' if x < -0.05 else 'reseña neutral'))
 
 
 # Contar la cantidad de cada tipo de sentimiento
@@ -88,7 +86,19 @@ df_sentimiento_libro.describe()
 # Calcular el sentimiento promedio por categoría
 df_sentimiento_categoria = sentimiento_promedio_por_categoria(df_nlp, 'categories').sort_values(by='sentimiento', ascending=True)
 
+#Guardar base.
+#Fragmentamos los datos para no saturar el repositorio
+df_nlp.shape
+df_nlp_1 = df_nlp.iloc[:150000, :]
+df_nlp_2 = df_nlp.iloc[150000:320894, :]
 
+# Guardar el DataFrame en un archivo pickle
+joblib.dump(df_nlp_1, 'salidas\\df_npl_1.pkl', compress=9)
+joblib.dump(df_nlp_2, 'salidas\\df_nlp_2.pkl', compress=9)
+
+# Confirmamos que el peso por archivo no sea mayor a 100 MB
+peso = os.path.getsize('salidas\\df_nlp_2.pkl')
+peso_mb = peso/(1024*1024)
 
 
 
